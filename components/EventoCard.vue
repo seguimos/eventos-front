@@ -15,14 +15,14 @@
         v-if="comuna"
         small
         color="tertiary"
-        class="white--text"
+        class="white--text rounded-sm"
       >
         {{ comando }}
       </v-chip>
       <v-chip
         small
         color="primary"
-        class="white--text"
+        class="white--text rounded-sm"
       >
         {{ region }}
       </v-chip>
@@ -30,7 +30,7 @@
         v-if="comuna"
         small
         color="quaternary"
-        class="white--text"
+        class="white--text rounded-sm"
       >
         {{ comuna }}
       </v-chip>
