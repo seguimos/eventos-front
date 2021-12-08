@@ -10,16 +10,31 @@
           Eventos
         </h1>
       </v-col>
-      <v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
         <Mapa
           :eventos="eventosFiltrados"
           :selected-region-id.sync="selectedRegionId"
           :selected-comuna-id.sync="selectedComunaId"
         />
       </v-col>
-      <v-col>
-        <ListaEventos
-          :eventos="eventosFiltrados"
+      <v-col
+        v-for="(evento, index) in eventos"
+        :key="index"
+        cols="12"
+        sm="6"
+      >
+        <EventoCard
+          :evento="evento.evento"
+          :evento-id="evento.id"
+          :comando="evento.comando"
+          :region="evento.region"
+          :comuna="evento.comuna"
+          :date-time-start="evento.dateTimeStart"
+          :descripcion="evento.descripcion"
+          :image-url="evento.imageUrl"
         />
       </v-col>
     </v-row>
@@ -28,11 +43,11 @@
 
 <script>
 import Mapa from '~/components/Mapa'
-import ListaEventos from '~/components/ListaEventos'
+import EventoCard from '~/components/EventoCard'
 import SelectorLugarEventos from '~/components/SelectorLugarEventos'
 export default {
   name: 'Eventos',
-  components: { SelectorLugarEventos, ListaEventos, Mapa },
+  components: { SelectorLugarEventos, Mapa, EventoCard },
   data () {
     return {
       selectedRegionId: null,
