@@ -21,7 +21,7 @@
         />
       </v-col>
       <v-col
-        v-for="(evento, index) in eventos"
+        v-for="(evento, index) in eventosFiltrados"
         :key="index"
         cols="12"
         sm="6"
