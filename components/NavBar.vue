@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-if="$auth.user"
       v-model="drawer"
       fixed
       app
@@ -9,32 +8,54 @@
       disable-resize-watcher
     >
       <v-list class="secondary--text" dark>
-        <v-list-group
-          v-for="(menu, index) in $auth.user.menus"
-          :key="`menu-${index}`"
-          :value="true"
-          no-action
-          sub-group
-          class="secondary--text"
-        >
-          <template #activator>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ menu.menu }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item
-            v-for="(submenu, i) in menu.submenus"
-            :key="`submenu-${i}`"
-            link
-            :to="submenu.route"
+        <div v-if="$auth.user">
+          <v-list-group
+            no-action
+            sub-group
+            class="secondary--text d-sm-flex d-md-none"
           >
-            <v-list-item-title>
-              {{ submenu.submenu }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
+            <template #activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ $auth.user.email }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+              v-for="(item, index) in menuEmail"
+              :key="index"
+              :to="item.route"
+            >
+              <v-list-item-title>{{ item.menu }}</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+          <v-list-group
+            v-for="(menu, index) in $auth.user.menus"
+            :key="`menu-${index}`"
+            :value="true"
+            no-action
+            sub-group
+            class="secondary--text"
+          >
+            <template #activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ menu.menu }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+              v-for="(submenu, i) in menu.submenus"
+              :key="`submenu-${i}`"
+              link
+              :to="submenu.route"
+            >
+              <v-list-item-title>
+                {{ submenu.submenu }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+        </div>
         <v-list-item
           v-for="(link, index) in links"
           :key="index"
@@ -54,13 +75,13 @@
       class="secondary--text"
     >
       <v-app-bar-nav-icon
-        class="d-lg-none d-xl-flex"
+        class="d-sm-flex d-md-none"
         @click.stop="drawer = !drawer"
       />
       <v-toolbar-title v-text="title" />
       <v-toolbar-items
         v-if="$auth.user"
-        class="d-sm-none d-lg-flex"
+        class="d-none d-md-flex"
       >
         <v-menu
           v-for="(menu, index) in $auth.user.menus"
@@ -94,7 +115,7 @@
         </v-menu>
       </v-toolbar-items>
       <v-toolbar-items
-        class="d-sm-none d-lg-flex"
+        class="d-none d-md-flex"
       >
         <v-btn
           v-for="(link, index) in links"
@@ -129,7 +150,7 @@
         <template #activator="{ on, attrs }">
           <v-btn
             text
-            class="secondary--text"
+            class="secondary--text d-none d-md-flex"
             v-bind="attrs"
             v-on="on"
           >
