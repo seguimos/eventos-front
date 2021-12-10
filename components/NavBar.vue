@@ -78,7 +78,7 @@
         class="d-sm-flex d-md-none"
         @click.stop="drawer = !drawer"
       />
-      <v-toolbar-title v-text="title" />
+      <div class="boric-logo ma-4" />
       <v-toolbar-items
         v-if="$auth.user"
         class="d-none d-md-flex"
@@ -195,5 +195,16 @@ export default {
 </script>
 
 <style scoped>
+
+.boric-logo {
+  background-color: white;
+  mask-image: url('/BoricLogo.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  width: 0.7em;
+  aspect-ratio: 16/9;
+  font-size: 8em;
+}
 
 </style>
