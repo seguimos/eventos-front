@@ -1,12 +1,55 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" md="10" lg="8">
-      <v-card>
+    <v-col cols="12" md="10">
+      <v-card elevation="0">
         <v-card-title>
-          Administrador de Comandos
+          Comandos
         </v-card-title>
         <v-card-text>
-          comandos
+          <v-row>
+            <v-col>
+              <v-select
+                v-model="selectedRegionId"
+                label="Region"
+                item-value="id"
+                item-text="region"
+                clearable
+                :items="regiones"
+              />
+            </v-col>
+            <v-col>
+              <v-autocomplete
+                v-model="selectedComunaId"
+                label="Comuna"
+                item-value="id"
+                item-text="comuna"
+                clearable
+                :items="comunas"
+              />
+            </v-col>
+            <v-col>
+              <v-select
+                v-model="selectedTipoComando"
+                label="Tipo Comando"
+                :items="tiposComandos"
+              />
+            </v-col>
+          </v-row>
+          <v-data-table
+            :headers="table.headers"
+            :items="comandosFiltrados"
+            :loading="table.loading"
+          >
+            <template #[`item.region`]="{item}">
+              {{ getRegion(item.regionId) }}
+            </template>
+            <template #[`item.comuna`]="{item}">
+              {{ getComuna(item.comunaId) }}
+            </template>
+            <template #[`item.tematico`]="{item}">
+              {{ item.comandoTematico? 'Sí': 'No' }}
+            </template>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-col>
@@ -14,9 +57,99 @@
 </template>
 
 <script>
+import divisionesTerritoriales from '~/assets/divisionesTerritoriales.json'
+
 export default {
   name: 'Comandos',
-  auth: false
+  auth: false,
+  data () {
+    return {
+      selectedRegionId: null,
+      selectedComunaId: null,
+      selectedTipoComando: null,
+      comandos: [],
+      tiposComandos: [
+        { text: 'Todos', value: null },
+        { text: 'Territoriales', value: false },
+        { text: 'Temáticos', value: true }
+      ],
+      table: {
+        headers: [
+          { text: 'Comando', value: 'comando', sortable: true },
+          { text: 'Region', value: 'region', sortable: true },
+          { text: 'Comuna', value: 'comuna', sortable: true },
+          { text: 'Tematico', value: 'tematico', sortable: true }
+        ],
+        loading: false
+      }
+    }
+  },
+  computed: {
+    regiones () {
+      return divisionesTerritoriales.map((region) => {
+        return {
+          id: region.id,
+          region: region.region,
+          number: region.region_number,
+          iso_3166_2: region.region_iso_3166_2
+        }
+      })
+    },
+    comunas () {
+      return divisionesTerritoriales.reduce((acc, region) => {
+        region.provincias.forEach((provincia) => {
+          provincia.comunas.forEach((comuna) => {
+            const comunaTemp = {
+              regionId: region.id,
+              comuna: comuna.name,
+              id: parseInt(comuna.id)
+            }
+            acc = [...acc, comunaTemp]
+          })
+        })
+        return acc
+      }, [])
+    },
+    comandosFiltrados () {
+      if (!this.selectedRegionId && !this.selectedComunaId && this.selectedTipoComando === null) {
+        return this.comandos
+      }
+      return this.comandos.filter((comando) => {
+        return (this.selectedRegionId
+          ? comando.regionId === this.selectedRegionId
+          : true) &&
+          (this.selectedComunaId
+            ? comando.comunaId === this.selectedComunaId
+            : true) &&
+          (this.selectedTipoComando !== null
+            ? comando.comandoTematico === this.selectedTipoComando
+            : true)
+      })
+    }
+  },
+  mounted () {
+    this.getComandos()
+  },
+  methods: {
+    getRegion (regionId) {
+      const region = this.regiones.find(region => region.id === regionId)
+      return region ? region.region : 'Sin región'
+    },
+    getComuna (comunaId) {
+      const comuna = this.comunas.find(comuna => comuna.id === comunaId)
+      return comuna ? comuna.comuna : 'Sin Comuna'
+    },
+    getComandos () {
+      this.table.loading = true
+      this.$axios.$get('comandos')
+        .then((response) => {
+          this.comandos = response.comandos
+        })
+        .finally(() => {
+          this.table.loading = false
+        })
+    }
+  }
 }
 </script>
 
