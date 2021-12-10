@@ -9,7 +9,7 @@
       :evento-id="deleteDialog.eventoId"
       :evento="deleteDialog.evento"
     />
-    <v-col cols="12" md="10" lg="8">
+    <v-col cols="12" md="10">
       <v-card>
         <v-card-title>
           Administrador de Eventos
@@ -147,7 +147,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.$auth.user.menus[0].submenus.some(el => el.route === 'admin-eventos')) {
+    if (!this.$auth.user.menus[0].submenus.some(el => el.route === '/admin-eventos')) {
       this.$router.push('error')
     }
     this.getEventos()

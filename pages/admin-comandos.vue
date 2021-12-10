@@ -15,7 +15,7 @@
       :comando-id="editIntegrantesDialog.comandoId"
       :comando="editIntegrantesDialog.comando"
     />
-    <v-col cols="12" md="10" lg="8">
+    <v-col cols="12" md="10">
       <v-card>
         <v-card-title>
           Administrador de Comandos
@@ -183,7 +183,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.$auth.user.menus[0].submenus.some(el => el.route === 'admin-comandos')) {
+    if (!this.$auth.user.menus[0].submenus.some(el => el.route === '/admin-comandos')) {
       this.$router.push('error')
     }
     this.getComandos()

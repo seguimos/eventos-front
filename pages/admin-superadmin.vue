@@ -83,7 +83,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.$auth.user.menus[0].submenus.some(el => el.route === 'admin-superadmin')) {
+    if (!this.$auth.user.menus[0].submenus.some(el => el.route === '/admin-superadmin')) {
       this.$router.push('error')
     }
     this.getSuperAdmins()
