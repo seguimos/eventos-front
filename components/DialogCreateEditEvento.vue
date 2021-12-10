@@ -68,6 +68,18 @@
                 />
               </v-col>
               <v-col cols="12" md="6" class="py-1">
+                <v-text-field
+                  v-model="evento.facebookUrl"
+                  label="Enlace Facebook (URL)"
+                />
+              </v-col>
+              <v-col cols="12" md="6" class="py-1">
+                <v-text-field
+                  v-model="evento.instagramUrl"
+                  label="Enlace Instagram (URL)"
+                />
+              </v-col>
+              <v-col cols="12" md="6" class="py-1">
                 <v-menu
                   v-model="menuDateStart"
                   :close-on-content-click="false"
@@ -403,13 +415,14 @@ export default {
       this.selectComunaId = val
       if (val) {
         const comuna = this.comunas.find(comuna => comuna.id === val)
+        if (!comuna) { return }
         if (this.evento.regionId !== comuna.regionId) {
           this.evento.regionId = comuna.regionId
         }
       }
     },
     'evento.comandoId' (val) {
-      if (val) {
+      if (val && !this.eventoId) {
         const comando = this.comandos.find(comando => comando.id === val)
         if (this.evento.comunaId !== comando.comunaId) {
           this.evento.comunaId = comando.comunaId
