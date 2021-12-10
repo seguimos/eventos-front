@@ -87,31 +87,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.$forceUpdate()
-      if (this.comunaId) {
-        this.$nextTick(() => {
-          this.dontWatchRegionComuna = true
-          this.$nextTick(() => {
-            this.moveToRegionComuna(this.comunaId, 'comuna')
-          })
-          this.$nextTick(() => {
-            this.dontWatchRegionComuna = false
-          })
-        })
-      } else if (this.selectedRegionId) {
-        this.$nextTick(() => {
-          this.dontWatchRegionComuna = true
-          this.$nextTick(() => {
-            this.moveToRegionComuna(this.regionId, 'region')
-          })
-          this.$nextTick(() => {
-            this.dontWatchRegionComuna = false
-          })
-        })
-      }
-      this.initMarkerDrag()
-    })
+    this.initMarkerDrag()
   },
   methods: {
     initMarkerDrag () {
@@ -146,7 +122,8 @@ export default {
       })
     },
     moveToRegionComuna (regionComunaId, regionOComuna) {
-      const map = this.$refs.mapaEvento.mapObject
+      const map = this.$refs.mapaEvento?.mapObject
+      if (!map) { return }
       let maxX = null
       let minX = null
       let maxY = null
