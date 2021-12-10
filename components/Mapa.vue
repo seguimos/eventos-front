@@ -13,7 +13,28 @@
           v-for="(evento, index) in eventos"
           :key="index"
           :lat-lng="[evento.latitud, evento.longitud]"
-        />
+        >
+          <l-popup>
+            <strong>{{ evento.evento }}</strong>
+            <br>
+            <strong>Fecha:</strong> {{ date(evento.dateTimeStart) }} - {{ time(evento.dateTimeStart) }}Hrs.
+            <div v-if="evento.direccion">
+              <strong>Direccion:</strong> {{ evento.direccion }}
+            </div>
+            <strong>Comando:</strong> {{ evento.comando }}
+            <br>
+            <a @click="$router.push('/evento/'+evento.evento)">
+              Ver Evento
+            </a>
+            <br>
+            <a
+              target="_blank"
+              :href="`https://www.google.com/maps/search/?api=1&query=${evento.latitud},${evento.longitud}`"
+            >
+              Ver en Google Maps
+            </a>
+          </l-popup>
+        </l-marker>
       </l-map>
     </client-only>
   </div>
@@ -44,7 +65,8 @@ export default {
     return {
       center: [-33.4449058, -70.654855],
       zoom: 10,
-      chileComunasGeoJson
+      chileComunasGeoJson,
+      dateOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     }
   },
   watch: {
@@ -71,6 +93,14 @@ export default {
     })
   },
   methods: {
+    date (dateTime) {
+      return dateTime
+        ? new Date(dateTime).toLocaleDateString('es', this.dateOptions)
+        : ''
+    },
+    time (dateTime) {
+      return dateTime.split(' ')[1]?.slice(0, -3)
+    },
     moveToRegionComuna (regionComunaId, regionOComuna) {
       const map = this.$refs.mapaEventos.mapObject
       let maxX = null

@@ -35,6 +35,7 @@
           :date-time-start="evento.dateTimeStart"
           :descripcion="evento.descripcion"
           :image-url="evento.imageUrl"
+          :direccion="evento.direccion"
         />
       </v-col>
     </v-row>
