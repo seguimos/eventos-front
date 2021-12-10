@@ -221,12 +221,12 @@
                 class="py-1"
               >
                 <v-autocomplete
-                  v-model="evento.comunaId"
+                  v-model="selectComunaId"
                   label="Comuna"
                   item-value="id"
                   item-text="comuna"
-                  clearable
                   :items="comunas"
+                  @change="changeComunaId()"
                 />
               </v-col>
               <v-col
@@ -333,7 +333,8 @@ export default {
       comandos: [],
       state: null,
       error: '',
-      showMap: false
+      showMap: false,
+      selectComunaId: null
     }
   },
   computed: {
@@ -399,6 +400,7 @@ export default {
       }
     },
     'evento.comunaId' (val) {
+      this.selectComunaId = val
       if (val) {
         const comuna = this.comunas.find(comuna => comuna.id === val)
         if (this.evento.regionId !== comuna.regionId) {
@@ -416,6 +418,13 @@ export default {
     }
   },
   methods: {
+    changeComunaId () {
+      if (this.selectComunaId) {
+        this.evento.comunaId = this.selectComunaId
+      } else {
+        this.selectComunaId = this.evento.comunaId
+      }
+    },
     initCreateEdit () {
       if (this.eventoId) {
         this.initEdit()

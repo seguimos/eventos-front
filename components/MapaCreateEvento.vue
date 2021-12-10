@@ -9,6 +9,11 @@
         class="map"
       >
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+        <l-marker
+          ref="eventoMarker"
+          :draggable="true"
+          :lat-lng.sync="latLng"
+        />
       </l-map>
     </client-only>
   </div>
@@ -50,15 +55,30 @@ export default {
       dontWatchRegionComuna: false
     }
   },
+  computed: {
+    latLng: {
+      get () {
+        return [this.lat, this.lng]
+      },
+      set (val) {
+        const lat = val.lat
+        const lng = val.lng
+        this.$emit('update:lat', lat)
+        this.$emit('update:lng', lng)
+        this.center = [lat, lng]
+        this.checkChangeMarkerRegionComuna({ lat, lng })
+      }
+    }
+  },
   watch: {
-    regionId (val) {
-      if (this.dontWatchRegionComuna) { return }
+    regionId (val, oldVal) {
+      if (val === oldVal || this.dontWatchRegionComuna) { return }
       if (val) {
         this.moveToRegionComuna(val, 'region')
       }
     },
-    comunaId (val) {
-      if (this.dontWatchRegionComuna) { return }
+    comunaId (val, oldVal) {
+      if (val === oldVal || this.dontWatchRegionComuna) { return }
       if (val) {
         this.moveToRegionComuna(val, 'comuna')
       } else if (this.regionId) {
@@ -70,32 +90,34 @@ export default {
     this.$nextTick(() => {
       this.$forceUpdate()
       if (this.comunaId) {
-        this.moveToRegionComuna(this.comunaId, 'comuna')
+        this.$nextTick(() => {
+          this.dontWatchRegionComuna = true
+          this.$nextTick(() => {
+            this.moveToRegionComuna(this.comunaId, 'comuna')
+          })
+          this.$nextTick(() => {
+            this.dontWatchRegionComuna = false
+          })
+        })
       } else if (this.selectedRegionId) {
-        this.moveToRegionComuna(this.regionId, 'region')
+        this.$nextTick(() => {
+          this.dontWatchRegionComuna = true
+          this.$nextTick(() => {
+            this.moveToRegionComuna(this.regionId, 'region')
+          })
+          this.$nextTick(() => {
+            this.dontWatchRegionComuna = false
+          })
+        })
       }
       this.initMarkerDrag()
     })
   },
   methods: {
-    moveToCoordinates (lat, lng) {
-      this.marker.setLatLng(new this.$L.LatLng(lat, lng))
-    },
     initMarkerDrag () {
-      const map = this.$refs.mapaEvento.mapObject
       if (!!this.lat && !!this.lng) {
         this.center = [this.lat, this.lng]
       }
-      this.marker = this.$L.marker(map.getCenter()).addTo(map)
-      map.on('move', () => {
-        this.marker.setLatLng(map.getCenter())
-        const coordinates = this.marker.getLatLng()
-        this.$emit('update:lat', coordinates.lat)
-        this.$emit('update:lng', coordinates.lng)
-      }).on('moveend', () => {
-        const coordinates = this.marker.getLatLng()
-        this.checkChangeMarkerRegionComuna(coordinates)
-      })
     },
     checkChangeMarkerRegionComuna (markerCoordinate) {
       chileComunasGeoJson.forEach((feature) => {
@@ -164,6 +186,7 @@ export default {
       const marker2 = this.$L.marker([maxY, maxX])
       const group = this.$L.featureGroup([marker1, marker2])
       map.fitBounds(group.getBounds())
+      this.latLng = map.getCenter()
     }
   }
 }
