@@ -78,7 +78,7 @@
         class="d-sm-flex d-md-none"
         @click.stop="drawer = !drawer"
       />
-      <div class="boric-logo ma-4" />
+      <div class="boric-logo ma-4" @click="$router.push('/')" />
       <v-toolbar-items
         v-if="$auth.user"
         class="d-none d-md-flex"
