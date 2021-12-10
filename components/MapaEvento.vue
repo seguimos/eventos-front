@@ -77,6 +77,7 @@ export default {
     }
   },
   mounted () {
+    this.attributionGenerate(this.latitud, this.longitud)
     this.center = [this.latitud, this.longitud]
   },
   methods: {
