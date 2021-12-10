@@ -47,7 +47,7 @@
     <v-card-text>
       {{ descripcion.slice(0,100) + ((descripcion.length > 100)? '...': '') }}
       <br>
-      <a @click="$router.push('/evento/'+evento)">
+      <a :href="'/evento/'+route">
         Ver Evento
       </a>
     </v-card-text>
@@ -92,6 +92,10 @@ export default {
       default: ''
     },
     direccion: {
+      type: String,
+      default: ''
+    },
+    route: {
       type: String,
       default: ''
     }

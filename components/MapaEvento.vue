@@ -76,6 +76,9 @@ export default {
       this.attributionGenerate(this.latitud, val)
     }
   },
+  mounted () {
+    this.center = [this.latitud, this.longitud]
+  },
   methods: {
     attributionGenerate (latitud, longitud) {
       this.attribution = `<a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${latitud},${longitud}">Ver en Google Maps</a>`

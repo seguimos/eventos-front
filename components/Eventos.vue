@@ -14,11 +14,13 @@
         cols="12"
         sm="6"
       >
-        <Mapa
-          :eventos="eventosFiltrados"
-          :selected-region-id.sync="selectedRegionId"
-          :selected-comuna-id.sync="selectedComunaId"
-        />
+        <client-only>
+          <Mapa
+            :eventos="eventosFiltrados"
+            :selected-region-id.sync="selectedRegionId"
+            :selected-comuna-id.sync="selectedComunaId"
+          />
+        </client-only>
       </v-col>
       <v-col
         v-for="(evento, index) in eventosFiltrados"
@@ -36,6 +38,7 @@
           :descripcion="evento.descripcion"
           :image-url="evento.imageUrl"
           :direccion="evento.direccion"
+          :route="evento.route"
         />
       </v-col>
     </v-row>
@@ -56,6 +59,9 @@ export default {
       eventos: []
     }
   },
+  async fetch () {
+    await this.getEventos()
+  },
   computed: {
     eventosFiltrados () {
       if (!this.selectedRegionId && !this.selectedComunaId) {
@@ -71,12 +77,9 @@ export default {
       })
     }
   },
-  mounted () {
-    this.getEventos()
-  },
   methods: {
-    getEventos () {
-      this.$axios.$get('/eventos')
+    async getEventos () {
+      await this.$axios.$get('/eventos')
         .then((response) => {
           this.eventos = response.eventos
         })

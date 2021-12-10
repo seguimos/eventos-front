@@ -23,7 +23,7 @@
             </div>
             <strong>Comando:</strong> {{ evento.comando }}
             <br>
-            <a @click="$router.push('/evento/'+evento.evento)">
+            <a :href="'/evento/'+evento.route">
               Ver Evento
             </a>
             <br>

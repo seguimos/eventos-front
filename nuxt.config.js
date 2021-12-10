@@ -4,15 +4,16 @@ import es from 'vuetify/lib/locale/es'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   // target: 'static',
-
+  debug: process.env.DEBUG || false,
+  ssr: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - eventos-boric-front',
-    title: 'eventos-boric-front',
+    titleTemplate: '%s - Eventos por Boric',
+    title: 'Eventos por Boric',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'Eventos por Gabriel Boric Presidente' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
