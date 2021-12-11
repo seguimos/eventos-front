@@ -302,7 +302,7 @@
 
 <script>
 import divisionesTerritoriales from '~/assets/divisionesTerritoriales.json'
-import { formatDate } from '~/utils'
+import { compressImageFile, formatDate } from '~/utils'
 
 export default {
   name: 'DialogCreateEditEvento',
@@ -482,15 +482,7 @@ export default {
           })
         })
     },
-    async getFileFromUrl (url, name, defaultType = 'image/jpeg') {
-      return await this.$axios.get(url).then(async (response) => {
-        const data = await response.blob()
-        return new File([data], name, {
-          type: data.type || response.headers.get('content-type') || defaultType
-        })
-      })
-    },
-    saveEvento () {
+    async saveEvento () {
       const valid = this.$refs.eventoForm.validate()
       if (!valid) {
         return
@@ -507,7 +499,7 @@ export default {
       formData.append('longitud', evento.longitud)
       formData.append('dateTimeStart', evento.dateStart + ' ' + evento.timeStart)
       formData.append('dateTimeEnd', evento.dateEnd + ' ' + evento.timeEnd)
-      formData.append('imageFile', evento.imageFile)
+      formData.append('imageFile', await compressImageFile(evento.imageFile))
       formData.append('facebookUrl', evento.facebookUrl)
       formData.append('instagramUrl', evento.instagramUrl)
       if (this.eventoId) {
