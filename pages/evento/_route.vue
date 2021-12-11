@@ -178,8 +178,60 @@ export default {
         }
       })
   },
-  head: {
-    title: 'Evento'
+  head () {
+    const url = process.env.DOMAIN ? process.env.DOMAIN + this.$route.fullPath : ''
+    return {
+      title: 'Evento ' + this.evento.evento,
+      link: [{
+        ref: 'canonical',
+        href: url
+      }],
+      meta: [{
+        hid: 'description',
+        name: 'description',
+        content: this.evento.descripcion
+      }, {
+        hid: 'twitter:url',
+        name: 'twitter:url',
+        content: url
+      }, {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: `Evento ${this.evento.evento}`
+      }, {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: this.evento.descripcion
+      }, {
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: this.evento.imageUrl
+      }, {
+        hid: 'twitter:label1',
+        name: 'twitter:label1',
+        content: `Comando ${this.evento.comando}`
+      }, {
+        hid: 'twitter:creator',
+        name: 'twitter:creator',
+        content: `Comando ${this.evento.comando}`
+      }, {
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        content: `Evento ${this.evento.evento}`
+      }, {
+        hid: 'og:title',
+        name: 'og:title',
+        content: `Evento ${this.evento.evento}`
+      }, {
+        hid: 'og:description',
+        name: 'og:description',
+        content: this.evento.descripcion
+      }, {
+        hid: 'og:image',
+        name: 'og:image',
+        content: this.evento.imageUrl
+      }]
+    }
   },
   computed: {
     url () {

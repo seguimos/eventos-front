@@ -49,6 +49,13 @@
             <template #[`item.tematico`]="{item}">
               {{ item.comandoTematico? 'Sí': 'No' }}
             </template>
+            <template #[`item.ver`]="{item}">
+              <v-btn fab color="primary" x-small @click="verComando(item.route)">
+                <v-icon small>
+                  mdi-eye
+                </v-icon>
+              </v-btn>
+            </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -78,10 +85,54 @@ export default {
           { text: 'Comando', value: 'comando', sortable: true },
           { text: 'Region', value: 'region', sortable: true },
           { text: 'Comuna', value: 'comuna', sortable: true },
-          { text: 'Tematico', value: 'tematico', sortable: true }
+          { text: 'Tematico', value: 'tematico', sortable: true },
+          { text: 'Ver', value: 'ver', sortable: false, align: 'center' }
         ],
         loading: false
       }
+    }
+  },
+  head () {
+    const url = process.env.DOMAIN ? process.env.DOMAIN + this.$route.fullPath : ''
+    return {
+      title: 'Comandos x Boric',
+      link: [{
+        ref: 'canonical',
+        href: url
+      }],
+      meta: [{
+        hid: 'description',
+        name: 'description',
+        content: 'Comandos por Boric'
+      }, {
+        hid: 'twitter:url',
+        name: 'twitter:url',
+        content: url
+      }, {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: 'Comandos x Boric'
+      }, {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: 'Comandos por Boric'
+      }, {
+        hid: 'twitter:creator',
+        name: 'twitter:creator',
+        content: 'Comandos por Boric'
+      }, {
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        content: 'Comandos x Boric'
+      }, {
+        hid: 'og:title',
+        name: 'og:title',
+        content: 'Comandos x Boric'
+      }, {
+        hid: 'og:description',
+        name: 'og:description',
+        content: 'Comandos por Boric'
+      }]
     }
   },
   computed: {
@@ -131,6 +182,9 @@ export default {
     this.getComandos()
   },
   methods: {
+    verComando (eventoRoute) {
+      this.$router.push('/comando/' + eventoRoute)
+    },
     getRegion (regionId) {
       const region = this.regiones.find(region => region.id === regionId)
       return region ? region.region : 'Sin región'

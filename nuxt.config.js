@@ -14,7 +14,52 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Eventos por Gabriel Boric Presidente' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      }, {
+        hid: 'twitter:url',
+        name: 'twitter:url',
+        content: process.env.DOMAIN
+      }, {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: 'Eventos por Boric'
+      }, {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: 'Eventos por Gabriel Boric Presidente'
+      }, {
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: process.env.DOMAIN ? process.env.DOMAIN + '/BoricFoto.jpg' : ''
+      }, {
+        hid: 'twitter:creator',
+        name: 'twitter:creator',
+        content: 'Eventos por Boric'
+      }, {
+        hid: 'twitter:site',
+        name: 'twitter:site',
+        content: 'Eventos x Boric'
+      }, {
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        content: 'Eventos por Boric'
+      }, {
+        hid: 'og:title',
+        name: 'og:title',
+        content: 'Eventos por Boric'
+      }, {
+        hid: 'og:description',
+        name: 'og:description',
+        content: 'Eventos por Gabriel Boric Presidente'
+      }, {
+        hid: 'og:image',
+        name: 'og:image',
+        content: process.env.DOMAIN ? process.env.DOMAIN + '/BoricFoto.jpg' : ''
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
