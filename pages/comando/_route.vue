@@ -184,6 +184,7 @@
 <script>
 export default {
   name: 'Comando',
+  auth: false,
   data () {
     return {
       shareDialog: false,
