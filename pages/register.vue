@@ -40,7 +40,7 @@
             <v-text-field
               v-model="passwordRepeat"
               type="password"
-              label="Contraseña"
+              label="Repita Contraseña"
               :rules="[
                 ((v) => !!v || 'Requerido'),
                 ((v)=> v === password || 'Contraseñas no coinciden')
