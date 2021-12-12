@@ -5,6 +5,11 @@
         <v-card-title>
           Registrarse
         </v-card-title>
+        <v-card-subtitle v-if="errors.length > 0" class="red--text">
+          <span v-for="(error, index) in errors" :key="index">
+            {{ error }}
+          </span>
+        </v-card-subtitle>
         <v-card-text>
           <v-form
             ref="loginForm"
@@ -74,7 +79,8 @@ export default {
       passwordRepeat: '',
       nombre: '',
       primerApellido: '',
-      segundoApellido: ''
+      segundoApellido: '',
+      errors: []
     }
   },
   async mounted () {
@@ -106,6 +112,14 @@ export default {
         this.$axios.$post('auth/register', data)
           .then(() => {
             this.$router.push('login')
+          })
+          .catch((error) => {
+            this.errors = Object.values(error.response.data).reduce((acc, e) => {
+              return [
+                ...acc,
+                ...e
+              ]
+            }, [])
           })
       } catch (error) {
         console.log('Login error:', error)
