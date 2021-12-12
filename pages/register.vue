@@ -37,6 +37,7 @@
               label="Contraseña"
               :rules="[
                 ((v) => !!v || 'Requerido'),
+                ((v) => !!v || 'Debe tener al menos 6 caracteres'),
                 ((v)=> /^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/.test(v)||'Debe tener al menos una letra mayúscula, una minúscula, un número y un caracter especial')
               ]"
             />
