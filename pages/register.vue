@@ -35,7 +35,10 @@
               v-model="password"
               type="password"
               label="Contraseña"
-              :rules="[(v) => !!v || 'Requerido']"
+              :rules="[
+                ((v) => !!v || 'Requerido'),
+                ((v)=> /^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/.test(v)||'Debe tener al menos una letra mayúscula, una minúscula, un número y un caracter especial')
+              ]"
             />
             <v-text-field
               v-model="passwordRepeat"
