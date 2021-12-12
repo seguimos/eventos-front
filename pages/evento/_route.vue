@@ -146,6 +146,8 @@
 
 <script>
 
+const domain = process.env.DOMAIN
+
 export default {
   name: 'Evento',
   auth: false,
@@ -182,7 +184,7 @@ export default {
       })
   },
   head () {
-    const url = process.env.DOMAIN ? process.env.DOMAIN + this.$route.fullPath : ''
+    const url = domain ? domain + this.$route.fullPath : ''
     return {
       title: 'Evento ' + this.evento.evento,
       link: [{
@@ -238,7 +240,7 @@ export default {
   },
   computed: {
     url () {
-      return process.env.DOMAIN ? process.env.DOMAIN + this.$route.fullPath : ''
+      return domain ? (domain + this.$route.fullPath) : ''
     },
     dateStart () {
       return this.evento.dateTimeStart

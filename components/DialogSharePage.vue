@@ -91,6 +91,10 @@ export default {
     facebookUrl: {
       type: String,
       default: ''
+    },
+    text: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -101,10 +105,11 @@ export default {
         this.url
     },
     compartirFacebook () {
-      return 'https://www.facebook.com/sharer.php?u=' + (this.facebookUrl ? this.facebookUrl : this.url)
+      return 'https://www.facebook.com/sharer.php?u=' + this.title +
+        ' ' + (this.facebookUrl ? this.facebookUrl : this.url)
     },
     compartirWhatsApp () {
-      return 'https://api.whatsapp.com/send?text=Vamos! ' + this.url
+      return 'https://api.whatsapp.com/send?text=' + this.text + ' ' + this.url
     }
   }
 }
