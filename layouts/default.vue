@@ -10,7 +10,7 @@
       absolute
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span class="footer-text">Desarrollado por el Equipo de Devs x Boric - <a class="link-footer" href="https://www.seguimos.cl/" target="_blank">Seguimos</a> &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -20,3 +20,12 @@ export default {
   name: 'Layout'
 }
 </script>
+<style scoped>
+.link-footer{
+  text-decoration: none;
+}
+
+.footer-text{
+  font-size: 12px
+}
+</style>
