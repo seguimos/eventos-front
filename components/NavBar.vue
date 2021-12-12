@@ -8,6 +8,24 @@
       disable-resize-watcher
     >
       <v-list class="secondary--text" dark>
+        <div v-if="!$auth.loggedIn">
+          <v-list-item
+            to="/login"
+            class="d-sm-flex d-md-none"
+          >
+            <v-list-item-title>
+              Iniciar Sesión
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            to="/register"
+            class="d-sm-flex d-md-none"
+          >
+            <v-list-item-title>
+              Registrarse
+            </v-list-item-title>
+          </v-list-item>
+        </div>
         <div v-if="$auth.user">
           <v-list-group
             no-action
@@ -130,7 +148,7 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <v-toolbar-items v-if="!$auth.loggedIn">
+      <v-toolbar-items v-if="!$auth.loggedIn" class="d-none d-md-flex">
         <v-btn
           to="/login"
           text
