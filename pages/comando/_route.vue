@@ -152,9 +152,9 @@
             </v-col>
           </v-row>
         </v-card-subtitle>
-        <v-card-text>
-          {{ comando.descripcion }}
-        </v-card-text>
+        <v-card-title>
+          Eventos del Comando
+        </v-card-title>
         <v-card-text>
           <v-col
             v-for="(evento, index) in comando.eventos"

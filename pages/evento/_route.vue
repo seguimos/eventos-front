@@ -64,6 +64,9 @@
               <div v-if="evento.direccion">
                 <strong>Direccion:</strong> {{ evento.direccion }}
               </div>
+              <div v-if="evento.comando">
+                <a :href="'/comando/'+evento.comandoRoute">Ver Comando {{ evento.comando }}</a>
+              </div>
             </v-col>
             <v-col cols="12" sm="4">
               <v-row justify="space-around">
