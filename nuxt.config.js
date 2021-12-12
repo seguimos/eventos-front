@@ -93,7 +93,8 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     'nuxt-leaflet',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/recaptcha'
   ],
   auth: {
     strategies: {
@@ -123,6 +124,14 @@ export default {
         }
       }
     }
+  },
+  // reCaptcha module confituration: https://github.com/nuxt-community/recaptcha-module
+  recaptcha: {
+    hideBadge: true, // Hide badge element (v3 & v2 via size=invisible)
+    language: 'es', // Recaptcha language (v2)
+    siteKey: process.env.RECAPTCHA_SITE_KEY, // Site key for requests
+    version: 3, // Version
+    size: 'invisible' // Size: 'compact', 'normal', 'invisible' (v2)
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

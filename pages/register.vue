@@ -73,23 +73,39 @@ export default {
       segundoApellido: ''
     }
   },
+  async mounted () {
+    try {
+      await this.$recaptcha.init()
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  beforeDestroy () {
+    this.$recaptcha.destroy()
+  },
   methods: {
-    login () {
+    async login () {
       const valid = this.$refs.loginForm.validate()
       if (!valid) {
         return
       }
-      const data = {
-        email: this.email,
-        password: this.password,
-        nombre: this.nombre,
-        primerApellido: this.primerApellido,
-        segundoApellido: this.segundoApellido
+      try {
+        const token = await this.$recaptcha.execute('login')
+        const data = {
+          recaptchaToken: token,
+          email: this.email,
+          password: this.password,
+          nombre: this.nombre,
+          primerApellido: this.primerApellido,
+          segundoApellido: this.segundoApellido
+        }
+        this.$axios.$post('auth/register', data)
+          .then(() => {
+            this.$router.push('login')
+          })
+      } catch (error) {
+        console.log('Login error:', error)
       }
-      this.$axios.$post('auth/register', data)
-        .then(() => {
-          this.$router.push('login')
-        })
     }
   }
 }
