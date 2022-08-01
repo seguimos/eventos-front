@@ -23,7 +23,7 @@
     "nuxt": "^2.15.7",
     "nuxt-leaflet": "^0.0.27",
     "topojson": "^3.0.2",
-    "vuetify": "^2.5.5"
+    "vuetify": "^2.6.8"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
